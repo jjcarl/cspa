@@ -19,5 +19,6 @@ from core import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^/$', views.index, name='home'),
+    url(r'^$', views.index, name='home'),
+
 ]
