@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-md-offset-3 col-md-6">
+        <h2 class="text-center">Add a Treatment</h2>
+        <form class="form-group" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Submit</button>
+        </form>
+        {% if errors %}
+            <p>{{ errors }}</p>
+        {% endif %}
+        <div>
+            <h3 class="text-center">Available Treatments</h3>
+            {% for treatment in treatments %}
+                <p>{{ treatment.name }}</p>
+                <p>${{ treatment.price }}</p>
+                <p>{{ treatment.description }}</p>
+                <hr/>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

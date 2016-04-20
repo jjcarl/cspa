@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+        <h2 class="text-center">Make Appointment Start Times</h2>
+        <div class="col-md-6">
+            <form class="form-group" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+            {% if errors %}
+                <p>{{errors}}</p>
+            {% endif %}
+
+        </div>
+        <div class="col-md-6">
+            <h3>Current Saved Start Times</h3>
+            {% for st in start_times %}
+                <p>{{st}}</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
