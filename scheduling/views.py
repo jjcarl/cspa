@@ -3,7 +3,7 @@ from django.utils import timezone
 # from django.views.generic.edit import CreateView
 
 from .forms import StartTimeForm, AppointmentForm
-from .models import StartTime, Appointment
+from .models import StartTime
 
 
 def make_start_time(request):
