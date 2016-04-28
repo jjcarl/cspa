@@ -22,4 +22,6 @@ urlpatterns = [
     url(r'^$', views.index, name='home'),
     url(r'^scheduling/', include('scheduling.urls')),
     url(r'^management/', include('core.urls')),
+    url(r'^login/$', views.account_login, name='login'),
+    url(r'^logout/$', views.account_logout, name='logout'),
 ]

@@ -1,15 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.utils import timezone
-# from django.views.generic.edit import CreateView
 
 from .forms import StartTimeForm, AppointmentForm
-from .models import StartTime
+from .models import StartTime, Appointment
 
 
 def make_start_time(request):
-    context = {}
+    context = dict()
     context['form'] = StartTimeForm()
-    context['start_times'] = StartTime.objects.filter(scheduled=False, start_time__gt=timezone.now())
+    context['start_times'] = StartTime.objects.filter(
+        scheduled=False, start_time__gt=timezone.now()).order_by('start_time')
     if request.method == 'POST':
         form = StartTimeForm(request.POST)
         if form.is_valid():
@@ -22,10 +22,11 @@ def make_start_time(request):
 
 
 def make_appointment(request):
-    context = {}
+    context = dict()
     context['form'] = AppointmentForm()
     if request.method == 'POST':
-        form = AppointmentForm(request.POST)
+        new_app = Appointment(user=request.user)
+        form = AppointmentForm(request.POST, instance=new_app)
         if form.is_valid():
             form.save()
         context['errors'] = form.errors
@@ -34,10 +35,7 @@ def make_appointment(request):
         return render(request, 'make_appointment.html', context)
 
 
-# TODO Try out these Class based views later
-# class MakeStartTime(CreateView):
-#     form_class = StartTimeForm
-#
-#
-# class ScheduleAppointment(CreateView):
-#     form_class = AppointmentForm
+def view_appointments(request):
+    appointments = Appointment.objects.filter(start_time__start_time__gt=timezone.now()).order_by(
+        'start_time').select_related('treatment', 'start_time')
+    return render(request, 'appointments.html', {'appointments': appointments})

@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .forms import ProductForm, TreatmentForm
 from .models import Product, Treatment
@@ -39,3 +39,25 @@ def manage_products(request):
         return render(request, 'products.html', context)
     else:
         return render(request, 'products.html', context)
+
+
+def account_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return redirect('/')
+            else:
+                render(request, 'login.html', {'errors': 'Your account has been disabled, please contact the CSpa'})
+        else:
+            return render(request, 'login.html', {'errors': 'Your account has been disabled, please contact the CSpa'})
+    else:
+        return render(request, 'login.html', {})
+
+
+def account_logout(request):
+    logout(request)
+    return redirect('/')

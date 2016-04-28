@@ -18,3 +18,6 @@ class Appointment(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     start_time = models.OneToOneField(StartTime)
     treatment = models.ForeignKey('core.Treatment')
+
+    def __str__(self):
+        return "{} with {}".format(self.start_time, self.user.username)
