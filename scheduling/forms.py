@@ -19,3 +19,5 @@ class AppointmentForm(forms.ModelForm):
             queryset=StartTime.objects.filter(scheduled=False)),
             'treatment': forms.ModelChoiceField(queryset=Treatment.objects.all())
         }
+        widgets = {'start_time': forms.Select(attrs={'class': 'form-control'}),
+                   'treatment': forms.Select(attrs={'class': 'form-control'})}
